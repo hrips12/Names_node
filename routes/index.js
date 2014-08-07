@@ -11,6 +11,7 @@ router.get('/search', function(req, res) {
   res.render('search', { title: 'Express' });
   
 });
+
 router.get('/search/:name', function(req, res) {
   var letter=req.params.name.substring(0,1);
   fs.readFile("letters.json", function(error,data){
@@ -36,6 +37,7 @@ router.get('/search/:name', function(req, res) {
   });
 
   });
+
 router.post("/search", function(req,res){
 	var name=req.body.search.split("");
 		var name=req.body.search;
@@ -46,7 +48,8 @@ router.post("/search", function(req,res){
 	var words=fs.readFileSync("letters.json");
 	var js_word=JSON.parse(words);
 	var result=search(name,js_word);
-	
+
+
 	res.send(result);
 });
 router.get('/add', function(req, res) {
@@ -65,12 +68,19 @@ router.post('/add', function(req, res){
 	var js_word=JSON.parse(words);
 	for(key in js_word){
 		if(first_latter==key){
+
 			var arr=js_word[key].split(",");
 			for(var i=0; i<arr.length;++i)
 				if(name==arr[i]){
 					res.send("The name has already added");
 					return;
 				}
+
+			var arr=js_word[key];
+			for(var i=0; i<arr.length;++i)
+				if(name==arr[i])
+					return;
+
 			var new_arr=[js_word[key]];
 			new_arr.push(name);
 			js_word[key]=new_arr.toString();	
